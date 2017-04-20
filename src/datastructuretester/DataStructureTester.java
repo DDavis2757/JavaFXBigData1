@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +20,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import static sort.ComplexSort.mergeSort;
+import static sort.ComplexSort.quickSort;
 import static sort.SimpleSorts.bubbleSort;
+import static sort.SimpleSorts.insertionSort;
+import static sort.SimpleSorts.selectionSort;
 
 /**
  * A JavaFX 8 program to help experiment with data structures and algorithms.
@@ -124,15 +129,29 @@ public class DataStructureTester extends Application {
          */
         MenuItem miGenerateIntegers = new MenuItem("Generate Integers");
         miGenerateIntegers.setOnAction(e -> {
-            for (int i = 0; i < 10000; i++) {
-                taData.appendText("" + i + "\n");
-            }
+ //           for (int i = 0; i < 10000; i++) {
+   //             taData.appendText("" + i + "\n");
+     //       }
+        StringBuilder sb = new StringBuilder();
+        String newLine ="\n";
+        for(int i = 0; i <100000; i ++){
+            sb.append(i).append(newLine);
+        }
+        taData.setText(sb.toString());
         });
         dataMenu.getItems().add(miGenerateIntegers);
 
         MenuItem miRandom = new MenuItem("Randomize Data");
         miRandom.setOnAction(e -> {
-
+            int[] nums = text2IntArray(taData.getText());
+            Random gen = new Random();
+            for(int i = 0; i<nums.length; i++) {
+                int temp = nums[i];
+                int j = gen.nextInt(nums.length);
+                nums[i] = nums[j];
+                nums[j] = temp;
+            }
+            taData.setText(intArray2Text(nums));
         });
         dataMenu.getItems().add(miRandom);
 
@@ -165,12 +184,121 @@ public class DataStructureTester extends Application {
             taStatus.appendText("\nArray to text finished in " + MyTimer.stopMicroTime() + "us");
         });
         sortMenu.getItems().add(miBubbleSortDsc);
+        
+        MenuItem miSelectionSortAsc = new MenuItem("Selection Sort Ascending");
+        miSelectionSortAsc.setOnAction(e -> {
+            MyTimer.startMicroTime();
+            int[] nums = text2IntArray(taData.getText());
+            taStatus.setText("Converting text to array took " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            selectionSort(nums, "A");
+            taStatus.appendText("\nSort finished in " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            taData.setText(intArray2Text(nums));
+            taStatus.appendText("\nArray to text finished in " + MyTimer.stopMicroTime() + "us");
+        });
+        sortMenu.getItems().add(miSelectionSortAsc);
+        
+        MenuItem miSelectionSortDsc = new MenuItem("Selection Sort Descending");
+        miSelectionSortDsc.setOnAction(e -> {
+            MyTimer.startMicroTime();
+            int[] nums = text2IntArray(taData.getText());
+            taStatus.setText("Converting text to array took " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            selectionSort(nums, "D");
+            taStatus.appendText("\nSort finished in " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            taData.setText(intArray2Text(nums));
+            taStatus.appendText("\nArray to text finished in " + MyTimer.stopMicroTime() + "us");
+        });
+        sortMenu.getItems().add(miSelectionSortDsc);
+        
+         MenuItem miInsertionSortAsc = new MenuItem("Insertion Sort Ascending");
+         miInsertionSortAsc.setOnAction(e -> {
+            MyTimer.startMicroTime();
+            int[] nums = text2IntArray(taData.getText());
+            taStatus.setText("Converting text to array took " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            insertionSort(nums, "A");
+            taStatus.appendText("\nSort finished in " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            taData.setText(intArray2Text(nums));
+            taStatus.appendText("\nArray to text finished in " + MyTimer.stopMicroTime() + "us");
+        });
+        sortMenu.getItems().add(miInsertionSortAsc);
+        
+        MenuItem miInsertionSortDsc = new MenuItem("Insertion Sort Descending");
+         miInsertionSortDsc.setOnAction(e -> {
+            MyTimer.startMicroTime();
+            int[] nums = text2IntArray(taData.getText());
+            taStatus.setText("Converting text to array took " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            insertionSort(nums, "D");
+            taStatus.appendText("\nSort finished in " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            taData.setText(intArray2Text(nums));
+            taStatus.appendText("\nArray to text finished in " + MyTimer.stopMicroTime() + "us");
+        });
+        sortMenu.getItems().add(miInsertionSortDsc);
+        
 
         MenuItem miMergeSortAsc = new MenuItem("Merge Sort Ascending");
+         miMergeSortAsc.setOnAction(e -> {
+            MyTimer.startMicroTime();
+            int[] nums = text2IntArray(taData.getText());
+            taStatus.setText("Converting text to array took " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            mergeSort(nums, "A");
+            taStatus.appendText("\nSort finished in " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            taData.setText(intArray2Text(nums));
+            taStatus.appendText("\nArray to text finished in " + MyTimer.stopMicroTime() + "us");
+        });
         sortMenu.getItems().add(miMergeSortAsc);
 
         MenuItem miMergeSortDsc = new MenuItem("Merge Sort Descending");
+        miMergeSortDsc.setOnAction(e -> {
+            MyTimer.startMicroTime();
+            int[] nums = text2IntArray(taData.getText());
+            taStatus.setText("Converting text to array took " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            mergeSort(nums, "D");
+            taStatus.appendText("\nSort finished in " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            taData.setText(intArray2Text(nums));
+            taStatus.appendText("\nArray to text finished in " + MyTimer.stopMicroTime() + "us");
+        });
         sortMenu.getItems().add(miMergeSortDsc);
+        
+        MenuItem miQuickSortAsc = new MenuItem("Quick Sort Ascending");
+        miQuickSortAsc.setOnAction(e -> {
+            MyTimer.startMicroTime();
+            int[] nums = text2IntArray(taData.getText());
+            taStatus.setText("Converting text to array took " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            quickSort(nums, "A");
+            taStatus.appendText("\nSort finished in " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            taData.setText(intArray2Text(nums));
+            taStatus.appendText("\nArray to text finished in " + MyTimer.stopMicroTime() + "us");
+        });
+        sortMenu.getItems().add(miQuickSortAsc);
+        
+        MenuItem miQuickSortDsc = new MenuItem("Quick Sort Descending");
+        miQuickSortDsc.setOnAction(e -> {
+            MyTimer.startMicroTime();
+            int[] nums = text2IntArray(taData.getText());
+            taStatus.setText("Converting text to array took " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            quickSort(nums, "D");
+            taStatus.appendText("\nSort finished in " + MyTimer.stopMicroTime() + "us");
+            MyTimer.startMicroTime();
+            taData.setText(intArray2Text(nums));
+            taStatus.appendText("\nArray to text finished in " + MyTimer.stopMicroTime() + "us");
+        });
+        sortMenu.getItems().add(miQuickSortDsc);
+        
+        
 
         /**
          * *********************************************************************
