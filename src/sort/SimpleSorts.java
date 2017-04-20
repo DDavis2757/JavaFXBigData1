@@ -26,29 +26,29 @@ public class SimpleSorts {
     }
     
     public static void insertionSort(int[] a, String direction){
-        if(direction.equals("D")){
-            for(int i = 0; i<a.length; i++){
-                int j=i+1;
+        int j, i;
+            if(direction.equalsIgnoreCase("A")){
+            for (i = 1; i < a.length; i++) {
                 int temp = a[i];
-                while(j > 0 && temp > a[j-1]){
-                    a[j]=a[j-1];
-                    j--;
+                j = i;
+                while (j > 0 && a[j - 1] > temp) {
+                    a[j] = a[j - 1];
+                    --j;
                 }
-                a[j]=temp;
+                a[j] = temp;
             }
         }
-        if(direction.equals("A")){
-            for(int i=1; i<a.length; i++){
+            else if(direction.equalsIgnoreCase("D")){
+            for (i = 1; i < a.length; i++) {
                 int temp = a[i];
-                int j = i;
-                while(j > 0 && a[j-1] > temp) {
-                    a[j] = a[j-1];
-                    j--;
+                for(j = i-1;(j>=0) && (a[j] < temp);j--){
+                    a[j+1] = a[j];
                 }
-                a[j]=temp;
+                a[j+1] = temp;
             }
         }
     }
+    
     
     
     
